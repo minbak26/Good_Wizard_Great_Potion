@@ -1,0 +1,9 @@
+# Unity YAML 파일은 LF 유지
+*.cs text eol=lf
+*.unity text eol=lf
+*.asset text eol=lf
+*.meta text eol=lf
+*.controller text eol=lf
+*.mat text eol=lf
+*.prefab text eol=lf
+* text=auto
