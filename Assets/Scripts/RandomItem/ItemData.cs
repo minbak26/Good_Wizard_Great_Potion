@@ -10,4 +10,7 @@ public class ItemData : ScriptableObject
     public int itemAmount;
     public Rarity rarity; // 희귀도.
     public Sprite icon;
+    public bool IsStackable { get; set; }
+    public string ItemName { get; set; }
+    public int ItemID { get; set; }
 }

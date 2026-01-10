@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // 추가
+using UnityEngine.UI; // UI 인벤토리를 위한 추가.
 
 
 public class PlayerMove : MonoBehaviour
@@ -14,8 +15,17 @@ public class PlayerMove : MonoBehaviour
     private InputAction mouseAimAction;
     // 플레이어 상호작용
     private InputAction BoxInteraction;
+    // 플레이어 상호작용 : 인벤토리 오픈.
+    private InputAction InventoryOpenAction;
 
     [SerializeField] private BoxManager boxManager;
+    
+    // 스킬슬롯
+	[SerializeField] GameObject Skill1;
+	[SerializeField] GameObject Skill2;
+
+	
+
     
     
     
@@ -40,6 +50,8 @@ public class PlayerMove : MonoBehaviour
         moveAction = input.PlayerMovement.Move;
         mouseAimAction = input.PlayerMovement.MouseAim;
         BoxInteraction = input.PlayerMovement.Interact;
+        InventoryOpenAction = input.PlayerMovement.InventoryOpen;
+        
         // 콜백 등록.
         BoxInteraction.performed += OnBoxInteract;
     }
@@ -104,9 +116,42 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    private void OnInventoryOpen(InputAction.CallbackContext context)
+    {
+        
+    }
+
     
     // 플레이어 기본정보.
-    [SerializeField] private float HP;
+    [SerializeField] private float HP = 100;
+    private float currentHP;
+
     
+    private void OnTriggerEnter(Collider other)
+    {
+        Magic magic = other.GetComponent<Magic>();
+
+        if (magic != null)
+        {
+            TakeDamage(magic.magicDamge);
+            //탄환 제거.
+            Destroy(other.gameObject);
+        }
+    }
+    void TakeDamage(float damage)
+    {
+        
+        if (HP > 0)
+        {
+            currentHP -= damage;
+            HP -= damage;
+            Debug.Log("currentHP : "+currentHP);
+            if (currentHP <= 0)
+            {
+                Debug.Log("player die!");
+                Destroy(gameObject);
+            }
+        }
+    }
 
 }
