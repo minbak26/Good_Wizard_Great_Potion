@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
 
     private static float MaxHp = 100f;
     private float CurrentHp = MaxHp;
-    private float MoveSpeed = 5f;
+    // private float MoveSpeed = 5f; 현재움직이지 않으므로 일단 주석처리.
     
 }
 

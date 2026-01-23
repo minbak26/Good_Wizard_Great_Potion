@@ -17,8 +17,7 @@ public class PlayerMove : MonoBehaviour
     private InputAction BoxInteraction;
     // 플레이어 상호작용 : 인벤토리 오픈.
     private InputAction InventoryOpenAction;
-
-    [SerializeField] private BoxManager boxManager;
+    
     
     // 스킬슬롯
 	[SerializeField] GameObject Skill1;
@@ -26,12 +25,6 @@ public class PlayerMove : MonoBehaviour
 
 	
 
-    
-    
-    
-   
-    
-    
     [Header("Shooting")] 
     public Transform shootPoint;
     public float shootCooldown = 0.1f;
