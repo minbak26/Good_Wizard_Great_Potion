@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class TitleManager : MonoBehaviour
     
     //타이틀
     public GameObject Title;
+    public Slider LoadingSlider;
+    public TextMeshProUGUI LoadingProgressTxt;
 
+    private AsyncOperation m_AsyncOperation;
     private void Awake()
     {
         LogoAnim.gameObject.SetActive(true);
@@ -34,5 +38,32 @@ public class TitleManager : MonoBehaviour
         
         LogoAnim.gameObject.SetActive(false);
         Title.SetActive(true);
+
+        m_AsyncOperation = SceneLoader.Instance.LoadSceneAsync(SceneType.Lobby);
+        if (m_AsyncOperation == null)
+        {
+            Logger.Log("Lobby async loading error");
+            yield break;
+        }
+        
+        m_AsyncOperation.allowSceneActivation = false;
+
+        LoadingSlider.value = 0.5f;
+        LoadingProgressTxt.text = $"{(int)(LoadingSlider.value * 100)}%";
+        yield return new WaitForSeconds(0.5f);
+
+        // 
+        // 로딩이 끝나기 전까지 프로그래스바 업데이트.
+        while (!m_AsyncOperation.isDone)
+        {
+            LoadingSlider.value = m_AsyncOperation.progress < 0.5f ? 0.5f : m_AsyncOperation.progress;
+            LoadingProgressTxt.text = $"{(int)(LoadingSlider.value * 100)}%";
+            if (m_AsyncOperation.progress >= 0.9f)
+            {
+                m_AsyncOperation.allowSceneActivation = true;
+                yield break;
+            }
+            yield return null;
+        }
     }
 }
