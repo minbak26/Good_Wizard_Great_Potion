@@ -12,12 +12,6 @@ public class StageManager : MonoBehaviour
         exitArea = new ExitArea();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private bool isExitTimerRunning = false;
 
     void OnTriggerStay(Collider other)
@@ -31,9 +25,6 @@ public class StageManager : MonoBehaviour
     }
 }
 
-
-
-
 // 탈출 지역.
 public class ExitArea
 {
@@ -44,6 +35,14 @@ public class ExitArea
         await UniTask.Delay(5000);
         Debug.Log("GameOver!");
         // GameOver 함수는  게임다시 시작, 종료, 제작 할수있는 제작대 UI 띄운다.
-        // GameOver();
+        ShowLobbyUI();
+    }
+    SceneLoader SceneLoader;
+
+    private SceneLoader ShowLobbyUI()
+    {
+        SceneLoader = new SceneLoader();
+        SceneLoader.LoadSceneAsync(SceneType.Lobby);
+        return SceneLoader;
     }
 }
