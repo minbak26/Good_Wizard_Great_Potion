@@ -1,43 +1,21 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
+{ 
+    private int health = 100;
+public void TakeDamage(int damage)
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    health -= damage;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+}
+private void DestroyEnemy()
+{
+    Destroy(gameObject);
+}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Magic magic = other.GetComponent<Magic>();
 
-        if (magic != null)
-        {
-            TakeDamage(magic.magicDamge);
-            //탄환 제거.
-            Destroy(other.gameObject);
-        }
-    }
-    
-    public void TakeDamage(float damage)
-    {
-        
-        CurrentHp -= damage;
-        Debug.Log("Taking damage! Current Hp:" + CurrentHp);
-        if(CurrentHp <= 0)
-            Destroy(this.gameObject);
-    }
-
-    private static float MaxHp = 100f;
-    private float CurrentHp = MaxHp;
-    // private float MoveSpeed = 5f; 현재움직이지 않으므로 일단 주석처리.
     
 }
 

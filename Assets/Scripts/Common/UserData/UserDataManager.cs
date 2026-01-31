@@ -34,7 +34,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
       {
          for (int i = 0; i < UserDataList.Count; i++)
          {
-            UserDataList[i].SetDefaultData();
+            UserDataList[i].LoadData();
          }
       }
    }
@@ -44,7 +44,19 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
       bool hasSaveError = false;
       for (int i = 0; i < UserDataList.Count; i++)
       {
+         bool isSaveError = UserDataList[i].SaveData();
+         if (!isSaveError)
+         {
+            hasSaveError = true;
+         }
          
+      }
+
+      if (!hasSaveError)
+      {
+         ExistsSavedData = true;
+         PlayerPrefs.SetInt("ExistsSavedData", 1);
+         PlayerPrefs.Save();
       }
    }
 }

@@ -25,6 +25,15 @@ public class TitleManager : MonoBehaviour
 
     private void Start()
     {
+        // 유저데이터 로드
+        UserDataManager.Instance.LoadUserData();
+        // 작성된 유저데이터가 없으면 기본값으로 세팅후 저장.
+        if (!UserDataManager.Instance.ExistsSavedData)
+        {
+            UserDataManager.Instance.SetDefaultUserData();
+            UserDataManager.Instance.SaveUserData();
+        }
+        
         StartCoroutine(LoadGameCo());
     }
 

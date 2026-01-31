@@ -17,7 +17,7 @@ public class UserSettingData : IUserData
         Logger.Log($"{GetType()}::LoadData");
 
         bool result = false;
-
+        
         try
         {
             Sound = PlayerPrefs.GetInt("Sound") == 1 ? true : false;
@@ -33,7 +33,7 @@ public class UserSettingData : IUserData
         return result;
     }
 
-    public bool Savedata()
+    public bool SaveData()
     {
         Logger.Log($"{GetType()}::Savedata");
         bool result = false;

@@ -15,9 +15,9 @@ TagManager:
   - Player
   - ExitArea
   - Enemy
-  - 
-  - 
-  - 
+  - WhatIsGround
+  - WhatisPlayer
+  - Props
   - 
   - 
   - 

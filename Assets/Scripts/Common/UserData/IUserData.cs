@@ -9,6 +9,6 @@ public interface IUserData
     bool LoadData();
     
     // 데이터 저장.
-    bool Savedata();
+    bool SaveData();
 
 }

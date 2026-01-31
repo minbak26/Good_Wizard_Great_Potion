@@ -37,7 +37,7 @@ public class UserGoodsData : IUserData
         return result;
     }
 
-    public bool Savedata()
+    public bool SaveData()
     {
         Logger.Log($"{GetType()}::Savedata");
         bool result = false;

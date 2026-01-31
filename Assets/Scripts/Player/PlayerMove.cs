@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem; // 추가
 using UnityEngine.UI; // UI 인벤토리를 위한 추가.
@@ -8,7 +9,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     public float moveSpeed = 5f;
     private Vector3 moveDirection;
-    private Vector2 mouseScreenPos;
+    // 새로운 트레킹 포인트를 위한 get,set
+    private Vector2 mouseScreenPos{get;set;}
     
     private PlayerMoveAction input; // inputSystem설정에서 C# 클래스로 생성.
     private InputAction moveAction;
@@ -58,7 +60,11 @@ public class PlayerMove : MonoBehaviour
     {
         
     }
+    [SerializeField]
+    private Transform cameraTaget;
 
+    [Range(0f, 1f)] [SerializeField] private float cameraStickiness = 0.5f;
+    
     void Update()
     {
         // 이동 입력: 월드 기준 (캐릭터 회전에 영향 받지 않음)
@@ -76,6 +82,14 @@ public class PlayerMove : MonoBehaviour
 
         if (lookDir.sqrMagnitude > 0.001f)
             transform.forward = lookDir.normalized;
+
+        if (cameraTaget != null)
+        {
+            Vector3 targetPos = Vector3.Lerp(transform.position, mouseWorldPos, cameraStickiness);
+            cameraTaget.position = new Vector3(targetPos.x, targetPos.y, targetPos.z);
+        }
+        
+        
         
         // 투사체 발사.
         if (Mouse.current.leftButton.wasPressedThisFrame && 
@@ -146,5 +160,9 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    
+    // 새로운 트레킹 목표 만들기
+    
+    
 
 }
