@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     public float moveSpeed = 5f;
     private Vector3 moveDirection;
+    
     // 새로운 트레킹 포인트를 위한 get,set
     private Vector2 mouseScreenPos{get;set;}
     
