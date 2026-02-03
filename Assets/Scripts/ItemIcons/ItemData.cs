@@ -10,7 +10,15 @@ public class ItemData : ScriptableObject
     public int itemAmount;
     public Rarity rarity; // 희귀도.
     public Sprite icon;
-    public bool IsStackable { get; set; }
-    public string ItemName { get; set; }
-    public int ItemID { get; set; }
+    public bool IsStackable;
+    public int maxStackAmount;
+    
+    
+}
+
+[System.Serializable]
+public class ItemStack
+{
+    public ItemData data;
+    public int amount;
 }

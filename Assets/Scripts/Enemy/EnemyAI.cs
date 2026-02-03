@@ -11,11 +11,11 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     // 상태 정의
-    public enum State {Patrol, Chase, Attack}
+    private enum State {Patrol, Chase, Attack}
     
     // 기본상태는 Patrol
     [Header("Current State")]
-    public State currentState = State.Patrol;
+    private State currentState = State.Patrol;
 
     [Header("Settings")] [SerializeField] private float patrolSpeed = 5f;
     [SerializeField] private float chaseSpeed = 5f;
@@ -75,7 +75,7 @@ public class EnemyAI : MonoBehaviour
                     await AttackState(token);
                     break;
             }
-            
+            await UniTask.Yield();
         }
     }
 

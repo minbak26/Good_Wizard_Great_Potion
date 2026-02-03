@@ -23,6 +23,12 @@ public class StageManager : MonoBehaviour
             exitArea.ExitTimerAsync().ContinueWith(()=> isExitTimerRunning = false);
         }
     }
+
+    void OnTriggerExit(Collider other)
+    {
+        isExitTimerRunning = false;
+        
+    }
 }
 
 // 탈출 지역.
@@ -33,7 +39,7 @@ public class ExitArea
         // 5초기다리기.
         Debug.Log("5초 타이머 시작");
         await UniTask.Delay(5000);
-        Debug.Log("GameOver!");
+        Debug.Log("Exit & ShowLobby!");
         // GameOver 함수는  게임다시 시작, 종료, 제작 할수있는 제작대 UI 띄운다.
         ShowLobbyUI();
     }
