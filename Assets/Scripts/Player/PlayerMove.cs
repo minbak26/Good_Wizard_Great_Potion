@@ -17,9 +17,9 @@ public class PlayerMove : MonoBehaviour
     private InputAction moveAction;
     private InputAction mouseAimAction;
     // 플레이어 상호작용
-    private InputAction BoxInteraction;
+    public InputAction BoxInteraction;
     // 플레이어 상호작용 : 인벤토리 오픈.
-    private InputAction InventoryOpenAction;
+    public InputAction InventoryOpenAction;
     
     
     // 스킬슬롯
@@ -48,8 +48,8 @@ public class PlayerMove : MonoBehaviour
         BoxInteraction = input.PlayerMovement.Interact;
         InventoryOpenAction = input.PlayerMovement.InventoryOpen;
         
-        // 콜백 등록.
         BoxInteraction.performed += OnBoxInteract;
+
     }
 
     void OnDisable()
@@ -116,14 +116,16 @@ public class PlayerMove : MonoBehaviour
         Magic magic = MagicPool.Instance.GetMagic();
         magic.Shoot(transform.forward, shootPoint.position);
     }
-    
-    // 박스 상호작용.
-    private void OnBoxInteract(InputAction.CallbackContext context)
-    {
-       // boxManager.HandlePlayerInteraction(transform.position);
 
+ 
+    // 박스 상호작용.
+    public void OnBoxInteract(InputAction.CallbackContext context)
+    {
+       
     }
 
+
+   
     private void OnInventoryOpen(InputAction.CallbackContext context)
     {
         
@@ -162,7 +164,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
     
-    // 새로운 트레킹 목표 만들기
+    
     
     
 
