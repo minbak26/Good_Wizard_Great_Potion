@@ -12,8 +12,7 @@ public class BoxInteration : MonoBehaviour
     [SerializeField] private GameObject interactionUI;
     [FormerlySerializedAs("BoxUI")] [SerializeField] public GameObject boxUI;
     private bool isPlayerRange = false;
-
-    private InputAction interaction;
+    
 
     // UI처리는 싱글톤으로1
     public static BoxInteration instance;
