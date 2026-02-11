@@ -12,7 +12,10 @@ public class BoxInit : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public List<ItemData> itemDatas = new List<ItemData>();
 
-    
+    private void Awake()
+    {
+        GetRandomItems();
+    }
     
     public void GetRandomItems()
     {
@@ -40,12 +43,16 @@ public class BoxInit : MonoBehaviour
             // 5. 필터링된 아이템 중에 하나 랜덤 추출.
             itemDatas.Add(filteredItemDatas[Random.Range(0, filteredItemDatas.Count)]);
             
-            
-
-
+            BoxInteration boxInteraction = GetComponent<BoxInteration>();
+            if (boxInteraction != null)
+            {
+                // BoxInteraction에 있는 리스트(예: myItems)에 결과 전달
+                boxInteraction.myItems = new List<ItemData>(this.itemDatas);
+            }
+ 
         }
-        // 6. UI스프라이트 가져오기.
-        BoxInteration.instance.UpdateBoxUI(itemDatas);
+        
+        
         // 결과 출력.
         foreach(var item in itemDatas) Debug.Log($"획득 : [ {item.rarity}] {item.name}" );
     }
@@ -61,8 +68,5 @@ public class BoxInit : MonoBehaviour
 
 
     
-    private void Awake()
-    {
-        GetRandomItems();
-    }
+    
 }

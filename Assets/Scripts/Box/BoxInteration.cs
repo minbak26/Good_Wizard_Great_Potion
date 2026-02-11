@@ -8,54 +8,18 @@ using UnityEngine.UI;
 
 public class BoxInteration : MonoBehaviour
 {
-    // UI 프리팹 : F키보드 모양 만들기.
-    [SerializeField] private GameObject interactionUI;
-    [FormerlySerializedAs("BoxUI")] [SerializeField] public GameObject boxUI;
+    public List<ItemData> myItems;
+    
     private bool isPlayerRange = false;
     
-
-    // UI처리는 싱글톤으로1
-    public static BoxInteration instance;
-    private void Awake()
-    {
-        // UI처리는 싱글톤으로2
-        if (instance == null)
-        {
-            instance = this;
-        }
-        interactionUI.SetActive(false);
-        boxUI.SetActive(false);
-    }
-
     
-    // 박스 요소 이미지 처리.
-    public Image[] uiSlots;
-    
-    public void UpdateBoxUI(List<ItemData> selectedItems)
-    {
-        for (int i = 0; i < uiSlots.Length; i++)
-        {
-            if (i < selectedItems.Count) // 뽑힌 아이템 개수 안쪽일 때
-            {
-                uiSlots[i].sprite = selectedItems[i].icon; // ScriptableObject의 스프라이트 할당
-                uiSlots[i].gameObject.SetActive(true);        // 슬롯 켜기
-            }
-            else // 남는 슬롯
-            {
-                uiSlots[i].gameObject.SetActive(false);       // 슬롯 끄기
-            }
-        }
-    }
-
-
-    private PlayerMove playerBoxInteration = new PlayerMove();
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("BoxInteration: OnTriggerEnter");
         if (other.tag == "Player")
         {
             isPlayerRange = true;
-            interactionUI.SetActive(true);
+            BoxUIManger.Instance.SetInteractionText(true);
         
           
 
@@ -69,20 +33,30 @@ public class BoxInteration : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("BoxInteration: OnTriggerExit");
         isPlayerRange = false;
-        interactionUI.SetActive(false);
-        boxUI.SetActive(false);
+        // 매니저야, 안내 문구랑 박스 창 다 꺼줘
+        BoxUIManger.Instance.SetInteractionText(false);
+        BoxUIManger.Instance.CloseBoxUI();
     }
 
     void Update()
     {
         if (!isPlayerRange) return;
-        
-        if (Keyboard.current.fKey.wasPressedThisFrame && isPlayerRange)
+
+        if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            Debug.Log("Fkey was pressed");
-            boxUI.SetActive(!boxUI.activeSelf);
+            // 이미 열려있으면 닫고, 닫혀있으면 연다
+            if (BoxUIManger.Instance.IsBoxUIOpen())
+            {
+                BoxUIManger.Instance.CloseBoxUI();
+                BoxUIManger.Instance.SetInteractionText(true); // 다시 안내 문구 켜기
+            }
+            else
+            {
+                // ★ 매니저에게 내 아이템 리스트(myItems)를 넘겨줍니다!
+                BoxUIManger.Instance.OpenBoxUI(myItems);
+            }
+        }
         }
        
         
@@ -90,4 +64,4 @@ public class BoxInteration : MonoBehaviour
     }
     
     
-}
+
