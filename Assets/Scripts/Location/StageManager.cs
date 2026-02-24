@@ -5,10 +5,15 @@ public class StageManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    public static StageManager instance;
+    
     private ExitArea exitArea;
+    // TODO: 새롭게 시작할수있도록 플레이어, 박스등을 새롭게 로드할수 있어야 할듯.. 일단 
+    
     
     void Start()
     {
+        instance = this;
         exitArea = new ExitArea();
     }
 

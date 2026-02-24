@@ -15,24 +15,25 @@ public class BoxInteration : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        if (BoxUIManger.Instance.IsBoxUIOpen())
+        {
+            return;
+        }
+        
         Debug.Log("BoxInteration: OnTriggerEnter");
         if (other.tag == "Player")
         {
             isPlayerRange = true;
             BoxUIManger.Instance.SetInteractionText(true);
-        
-          
-
         }
-        
-
-       
     }
-
-    
 
     private void OnTriggerExit(Collider other)
     {
+        if (BoxUIManger.Instance.IsBoxUIOpen())
+        {
+            return;
+        }
         isPlayerRange = false;
         // 매니저야, 안내 문구랑 박스 창 다 꺼줘
         BoxUIManger.Instance.SetInteractionText(false);
@@ -43,21 +44,22 @@ public class BoxInteration : MonoBehaviour
     {
         if (!isPlayerRange) return;
 
+        // F키를 눌렀을 때만 작동하게 함
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            // 이미 열려있으면 닫고, 닫혀있으면 연다
-            if (BoxUIManger.Instance.IsBoxUIOpen())
+            // UI가 꺼져있다면 연다
+            if (!BoxUIManger.Instance.IsBoxUIOpen())
             {
-                BoxUIManger.Instance.CloseBoxUI();
-                BoxUIManger.Instance.SetInteractionText(true); // 다시 안내 문구 켜기
-            }
-            else
-            {
-                // ★ 매니저에게 내 아이템 리스트(myItems)를 넘겨줍니다!
                 BoxUIManger.Instance.OpenBoxUI(myItems);
             }
+            // UI가 켜져있다면 닫는다 (오직 여기서만 Close가 실행되어야 함)
+            else
+            {
+                BoxUIManger.Instance.CloseBoxUI();
+                BoxUIManger.Instance.SetInteractionText(true);
+            }
         }
-        }
+    }
        
         
       

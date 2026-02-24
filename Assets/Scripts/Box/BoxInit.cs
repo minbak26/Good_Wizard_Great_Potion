@@ -25,6 +25,8 @@ public class BoxInit : MonoBehaviour
         if (allItems.Length == 0)
         {
             Debug.LogError("No Ingredient found");
+            
+            
             return;
         }
 
@@ -37,22 +39,20 @@ public class BoxInit : MonoBehaviour
         {
             // 3. 등급 결정
             Rarity selectedRarity = RollRarity();
-            
+
             // 4. 정해진 등급의 아이템 필터링.
             List<ItemData> filteredItemDatas = allItems.Where(x => x.rarity == selectedRarity).ToList();
             // 5. 필터링된 아이템 중에 하나 랜덤 추출.
             itemDatas.Add(filteredItemDatas[Random.Range(0, filteredItemDatas.Count)]);
-            
-            BoxInteration boxInteraction = GetComponent<BoxInteration>();
-            if (boxInteraction != null)
-            {
-                // BoxInteraction에 있는 리스트(예: myItems)에 결과 전달
-                boxInteraction.myItems = new List<ItemData>(this.itemDatas);
-            }
- 
         }
-        
-        
+
+        BoxInteration boxInteraction = GetComponent<BoxInteration>();
+        if (boxInteraction != null)
+        {
+            // BoxInteraction에 있는 리스트(예: myItems)에 결과 전달
+            boxInteraction.myItems = new List<ItemData>(this.itemDatas);
+        }
+ 
         // 결과 출력.
         foreach(var item in itemDatas) Debug.Log($"획득 : [ {item.rarity}] {item.name}" );
     }

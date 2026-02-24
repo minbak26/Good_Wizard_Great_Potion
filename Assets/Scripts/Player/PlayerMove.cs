@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem; // 추가
@@ -48,7 +49,7 @@ public class PlayerMove : MonoBehaviour
         BoxInteraction = input.PlayerMovement.Interact;
         InventoryOpenAction = input.PlayerMovement.InventoryOpen;
         
-        BoxInteraction.performed += OnBoxInteract;
+      
 
     }
 
@@ -57,10 +58,7 @@ public class PlayerMove : MonoBehaviour
         input.Disable();
     }
 
-    void Start()
-    {
-        
-    }
+   
     [SerializeField]
     private Transform cameraTaget;
 
@@ -118,18 +116,7 @@ public class PlayerMove : MonoBehaviour
     }
 
  
-    // 박스 상호작용.
-    public void OnBoxInteract(InputAction.CallbackContext context)
-    {
-       
-    }
-
-
-   
-    private void OnInventoryOpen(InputAction.CallbackContext context)
-    {
-        
-    }
+  
 
     
     // 플레이어 기본정보.
@@ -148,6 +135,7 @@ public class PlayerMove : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+    
     void TakeDamage(float damage)
     {
         
@@ -159,12 +147,21 @@ public class PlayerMove : MonoBehaviour
             if (currentHP <= 0)
             {
                 Debug.Log("player die!");
-                Destroy(gameObject);
+                PlayerDie();
+                
             }
         }
     }
     
-    
+    void PlayerDie()
+    {
+        // 플레이어 오브젝트 삭제.
+        Destroy(gameObject);
+        // 플레이어 인벤토리 삭제.
+        InventoryManager.Instance.AllItemDelete();
+        // 5초뒤 로비화면으로 이동. Todo:
+        
+    }
     
     
 
