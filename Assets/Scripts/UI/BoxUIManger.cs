@@ -18,24 +18,7 @@ public class BoxUIManger : MonoBehaviour
 
         CloseBoxUI();
         interactionTextUI.SetActive(false);
-
-        // // 💡 [해결 2] 시작할 때 버튼 클릭 이벤트를 자동으로 연결해 줌
-        // for (int i = 0; i < uiSlots.Length; i++)
-        // {
-        //     int index = i; // 클로저(Closure) 문제 방지를 위해 지역 변수로 복사
-        //     Button btn = uiSlots[i].GetComponent<Button>();
-        //     
-        //     if (btn != null)
-        //     {
-        //         // 기존 연결을 비우고 새로 연결
-        //         btn.onClick.RemoveAllListeners();
-        //         btn.onClick.AddListener(() => OnSlotClick(index));
-        //     }
-        //     else
-        //     {
-        //         Debug.LogWarning($"⚠️ 슬롯 {i}번에 Button 컴포넌트가 없습니다! 인스펙터에서 Add Component로 Button을 추가해주세요.");
-        //     }
-        // }
+        
     }
 
 	

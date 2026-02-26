@@ -158,7 +158,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
-    
+    public ExitArea exitArea;
     void PlayerDie()
     {
         // 플레이어 오브젝트 삭제.
@@ -167,6 +167,7 @@ public class PlayerMove : MonoBehaviour
         InventoryManager.Instance.AllItemDelete();
         // 5초뒤 로비화면으로 이동. Todo:
         
+        StageManager.instance.exitArea.ShowLobbyUI();
     }
     
     

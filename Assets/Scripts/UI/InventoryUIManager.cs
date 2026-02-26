@@ -19,7 +19,6 @@ public class InventoryUIManager : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(gameObject);
         // 초기에는 꺼지다가.
         inventoryUI.SetActive(false);
     }
@@ -27,18 +26,47 @@ public class InventoryUIManager : MonoBehaviour
     public void OpenInventoryUI(List<ItemData> items)
     {
         inventoryUI.SetActive(true);
-        
-        
-        
+        UpdateInventoryUI(items);
     }
 
     void Update()
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            OpenInventoryUI(currentInventoryItems);
+            Debug.Log("Test");
         }
    
+    }
+    
+    public void ToggleInventory()
+    {
+        // 현재 상태의 반대로 설정 (true -> false, false -> true)
+        bool isActive = !inventoryUI.activeSelf;
+    
+        if (isActive)
+        {
+            // UI를 켤 때: 데이터가 있을 때만 업데이트
+            inventoryUI.SetActive(true);
+            if (currentInventoryItems != null) 
+            {
+                UpdateInventoryUI(currentInventoryItems);
+            }
+            Debug.Log("Inventory Opened");
+           
+        }
+        else
+        {
+            // UI를 끌 때
+            inventoryUI.SetActive(false);
+            Debug.Log("Inventory Closed");
+            
+        }
+    }
+
+// 단순히 상태만 확인하도록 수정
+    public bool IsInventoryOpen()
+    {
+        return inventoryUI.activeSelf;
     }
 
     // 어떻게 UI 업데이트를 할가?
@@ -71,11 +99,7 @@ public class InventoryUIManager : MonoBehaviour
 
     }
 
-    public bool IsInventoryOpen()
-    {
-        OpenInventoryUI(currentInventoryItems);
-        return inventoryUI.activeSelf;
-    }
+    
     
     
     

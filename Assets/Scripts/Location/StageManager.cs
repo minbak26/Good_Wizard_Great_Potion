@@ -7,11 +7,11 @@ public class StageManager : MonoBehaviour
 
     public static StageManager instance;
     
-    private ExitArea exitArea;
+    public ExitArea exitArea;
     // TODO: 새롭게 시작할수있도록 플레이어, 박스등을 새롭게 로드할수 있어야 할듯.. 일단 
     
     
-    void Start()
+    void Awake()
     {
         instance = this;
         exitArea = new ExitArea();
@@ -50,7 +50,7 @@ public class ExitArea
     }
     SceneLoader SceneLoader;
 
-    private SceneLoader ShowLobbyUI()
+    public SceneLoader ShowLobbyUI()
     {
         SceneLoader = new SceneLoader();
         SceneLoader.LoadSceneAsync(SceneType.Lobby);
