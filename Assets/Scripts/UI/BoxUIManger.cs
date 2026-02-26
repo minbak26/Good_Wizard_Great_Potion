@@ -38,11 +38,14 @@ public class BoxUIManger : MonoBehaviour
         // }
     }
 
+	
+
     public void SetInteractionText(bool isActive)
     {
         interactionTextUI.SetActive(isActive);
     }
 
+	// 현재 박스에 열러있는 아이템 리스트.
     private List<ItemData> currentOpenedItems; 
     
     public void OpenBoxUI(List<ItemData> items)
@@ -98,11 +101,11 @@ public class BoxUIManger : MonoBehaviour
         Debug.Log($"<color=cyan>✨ 클릭 성공!</color> 선택된 아이템: <b>{selectedItem.name}</b> \n 선택된 아이템 개수.: {selectedItem.itemAmount}");
 
         // 2. [중요] 인벤토리가 아직 없으므로 로그만 남깁니다.
-        Debug.Log($"{selectedItem.name}이(가) 가상의 인벤토리로 이동했습니다.");
-        // 이제 인벤토리로 옮기는 작업을 해봅시다.
-        // 어떻게 할까. seletceditem을 보내야하나.
-        
-        InventoryManager.Instance.AddItem(selectedItem);
+        //Debug.Log($"{selectedItem.name}이(가) 가상의 인벤토리로 이동했습니다.");
+
+        // 인벤토리에서 추가.
+    
+      InventoryManager.Instance.AddItem(selectedItem);
 
         // 3. 박스 데이터에서 해당 아이템 삭제
         currentOpenedItems.RemoveAt(index);

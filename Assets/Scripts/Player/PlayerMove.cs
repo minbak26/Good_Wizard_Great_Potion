@@ -97,6 +97,12 @@ public class PlayerMove : MonoBehaviour
             Shoot();
             lastShootTime = Time.time;
         }
+
+        // player 인벤토리 확인용 테스트 코드.
+        if(Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            PlayerDie();
+        }
        
 
     }

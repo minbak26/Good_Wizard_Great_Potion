@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"📦 인벤토리 추가: {item.name} (현재 총 {playerItems.Count}개)");
 
         // UI 업데이트 호출 (나중에 UI 완성 후 연결)
-        //inventoryUI;
+        InventoryUIManager.instance.UpdateInventoryUI(playerItems);
     }
 
     // 아이템 삭제 함수 (버리거나 조합할 때 사용)
@@ -43,7 +43,7 @@ public class InventoryManager : MonoBehaviour
         {
             Debug.Log($"인벤토리 삭제 : {item.name} (현재 총 {{playerItems.Count}}개)");
             playerItems.Remove(item);
-            //InventoryUIManager.instance.UpdateInventoryUI();
+            InventoryUIManager.instance.UpdateInventoryUI(playerItems);
         }
     }
     
@@ -51,6 +51,7 @@ public class InventoryManager : MonoBehaviour
     public void AllItemDelete()
     {
         playerItems.Clear();
+        InventoryUIManager.instance.UpdateInventoryUI(playerItems);
     }
     
 }

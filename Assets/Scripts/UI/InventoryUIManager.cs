@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,8 +13,8 @@ public class InventoryUIManager : MonoBehaviour
     public GameObject inventoryUI;
     public Image[] uiSlots;
 
-    // 현재 아이템.
-    private List<ItemData> currentOpenedItems;
+    // 현재 인벤토리 아이템.
+    private List<ItemData> currentInventoryItems;
     
     void Awake()
     {
@@ -35,35 +36,44 @@ public class InventoryUIManager : MonoBehaviour
     {
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            OpenInventoryUI(currentOpenedItems);
+            OpenInventoryUI(currentInventoryItems);
         }
-        
-        
+   
     }
 
     // 어떻게 UI 업데이트를 할가?
     // 슬롯 전부 등록하고, 순서대로 채워가기 만약 같은 아이템이 잇다면 하위의 숫자++하기.
     int uiSlotIndex = 0;
-    public void UpdateInventoryUI(ItemData items)
+    public void UpdateInventoryUI(List<ItemData> items)
     {
-        // 순회후 없다면 새로운 인덱스에 추가하도록
+        currentInventoryItems = items;
         for (int i = 0; i < uiSlots.Length; i++)
         {
-            //  근데 처음엔 굳이 순회를 할필요가 없음..
-            // 일단 슬롯의 이름과 비교를 해보자.
-            // 근데 또 처음엔 아무것도 이름이 없는데 흠..
-            if (uiSlots[i].name == items.itemName)
+            uiSlots[i].gameObject.SetActive(true);
+
+            if (i < items.Count)
             {
-                
+                // 💡 [해결 1] 아이템이 있는 경우: 이미지 할당 + 불투명하게 표시 + 클릭 가능
+                uiSlots[i].sprite = items[i].icon;
+                uiSlots[i].color = new Color(1, 1, 1, 1);
+                uiSlots[i].raycastTarget = true;
+
+                Debug.Log($"✅ 슬롯 {i}번에 {items[i].name} 아이콘 등록 완료");
+            }
+            else
+            {
+                // 💡 [해결 1] 아이템이 없는 경우: 이미지 제거 + 투명하게 숨김 + 클릭 불가
+                uiSlots[i].sprite = null;
+                uiSlots[i].color = new Color(1, 1, 1, 0);
+                uiSlots[i].raycastTarget = false;
             }
         }
-        uiSlots[uiSlotIndex].sprite = items.icon;
-        items.itemAmount++;
+
     }
 
     public bool IsInventoryOpen()
     {
-        OpenInventoryUI(currentOpenedItems);
+        OpenInventoryUI(currentInventoryItems);
         return inventoryUI.activeSelf;
     }
     
