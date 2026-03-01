@@ -1,4 +1,7 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -25,7 +28,10 @@ public class StageManager : MonoBehaviour
         {
             Debug.Log("ExitTimer 시작!");
             isExitTimerRunning = true;
-            exitArea.ExitTimerAsync().ContinueWith(()=> isExitTimerRunning = false);
+            
+            var ct = this.GetCancellationTokenOnDestroy();
+            
+            exitArea.ExitTimerAsync(ct).Forget();
         }
     }
 
@@ -39,21 +45,34 @@ public class StageManager : MonoBehaviour
 // 탈출 지역.
 public class ExitArea
 {
-    public async UniTask ExitTimerAsync()
+  
+    public async UniTask ExitTimerAsync(CancellationToken ct)
     {
         // 5초기다리기.
         Debug.Log("5초 타이머 시작");
-        await UniTask.Delay(5000);
-        Debug.Log("Exit & ShowLobby!");
-        // GameOver 함수는  게임다시 시작, 종료, 제작 할수있는 제작대 UI 띄운다.
-        ShowLobbyUI();
+        try
+        {
+            await UniTask.Delay(5000, cancellationToken: ct);
+            InventoryManager.Instance.AllItemAddtoStorage();
+            // GameOver 함수는  게임다시 시작, 종료, 제작 할수있는 제작대 UI 띄운다.
+            Debug.Log("Exit & ShowLobby!");
+            ShowLobbyUI();
+        }
+        catch (System.OperationCanceledException)
+        {
+            Debug.Log("타이머가 취소되었습니다 (플레이어가 나갔거나 씬이 바뀌었음)");
+        }
+     
+       
     }
+
+  
     SceneLoader SceneLoader;
 
-    public SceneLoader ShowLobbyUI()
+    public void ShowLobbyUI()
     {
         SceneLoader = new SceneLoader();
-        SceneLoader.LoadSceneAsync(SceneType.Lobby);
-        return SceneLoader;
+        SceneLoader.LoadSceneAsync(SceneType.Lobby); 
+        
     }
 }

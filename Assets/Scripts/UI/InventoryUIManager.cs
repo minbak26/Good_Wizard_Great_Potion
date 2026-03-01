@@ -18,6 +18,7 @@ public class InventoryUIManager : MonoBehaviour
     
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         if (instance == null) instance = this;
         // 초기에는 꺼지다가.
         inventoryUI.SetActive(false);

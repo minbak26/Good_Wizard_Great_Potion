@@ -53,5 +53,26 @@ public class InventoryManager : MonoBehaviour
         playerItems.Clear();
         InventoryUIManager.instance.UpdateInventoryUI(playerItems);
     }
+
+    public void AllItemAddtoStorage()
+    {
+        if (StorageManager.instance == null)
+        {
+            Debug.LogError("StorageManager instance is null!");
+            return;
+        }
+
+        // ❷ storageData 초기화 체크
+        if (StorageManager.instance.storageData == null)
+        {
+            Debug.LogError("storageData is null!");
+            return;
+        }
+
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            StorageManager.instance.storageData.Add(playerItems[i]);
+        }
+    }
     
 }
